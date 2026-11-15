@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- id属性：代表对象的唯一标识。可以看做一个人的身份证号。-->
+    <!-- class属性：用来指定要创建的java对象的类名，这个类名必须是全限定类名（带包名）。-->
+    <bean id="userBean" class="org.harry.simple.bean.User"></bean>
+
+    <!--    测试一下 bean id 是否可以重复  ->  不可以  -->
+    <!--    如果不使用 ClassPathXmlApplicationContext("beans.xml"); 载入 xml 的话就不会 报错-->
+    <!--    <bean id="userBean" class="org.harry.simple.bean.Vip"></bean>-->
+
+
+</beans>
