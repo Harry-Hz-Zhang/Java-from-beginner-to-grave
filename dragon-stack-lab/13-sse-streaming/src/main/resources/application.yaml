@@ -1,0 +1,18 @@
+server:
+  # 避开 8080，也避开本机正在运行的 harness_saas
+  port: 18091
+
+spring:
+  mvc:
+    async:
+      # 0 表示异步请求永不超时，与 SseEmitter(0L) 配套。
+      # 生产项目写的就是 0，因为任务可能运行几十分钟，超时会掐断日志推送。
+      # 注意这个值只影响异步请求，普通请求的读超时由服务器连接器参数控制。
+      request-timeout: 0
+
+lab:
+  stream:
+    # 心跳间隔。生产 TaskProperties 里的 eventHeartbeat 默认 15s，
+    # 这里调成 1 秒，运行一次就能在输出里看到 comment 帧。
+    # 单位是 Spring 的 Duration 格式：s 是秒，ms 是毫秒。
+    heartbeat: 1s

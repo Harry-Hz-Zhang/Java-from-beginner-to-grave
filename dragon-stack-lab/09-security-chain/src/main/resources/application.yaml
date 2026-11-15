@@ -1,0 +1,18 @@
+server:
+  # 刻意避开 8080。你的本机 8080 上跑着 harness_saas，
+  # 如果这里也用 8080，curl 会打到那个服务上，你会看到 SESSION_INVALID 这样的错误码，
+  # 然后误以为自己的配置写错了。给每个 demo 分配独立端口，是避免这种困惑的最简单办法。
+  port: 18090
+
+spring:
+  mvc:
+    async:
+      # 与生产 application.yaml:11-13 一致：异步请求不设超时，交给业务自己控制。
+      # 关掉超时的前提是安全链放行了 ASYNC 派发，否则第二次派发会被当成未认证请求拦掉。
+      request-timeout: 0
+
+lab:
+  cors:
+    # 对应生产的 harness.cors.allowed-origins。生产是 "*"，因为控制台与接口同域由 nginx 分发；
+    # 这里写具体来源，便于你在浏览器里观察预检请求的响应头。
+    allowed-origins: "http://localhost:3000"

@@ -1,0 +1,13 @@
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      # 密码不写死。本机 bidding-agent-redis 需要认证，运行时通过环境变量传入：
+      # REDIS_PASSWORD=xxx mvn -pl 14-redis-cache spring-boot:run
+      # 这正是生产项目 application.yaml 里 ${REDIS_PASSWORD:} 的用意：配置里只留占位符。
+      password: ${REDIS_PASSWORD:}
+      # 连接超时与读超时都要设。不设时默认可能长达数十秒，
+      # Redis 一挂你的接口就会整体卡住，而不是快速失败。
+      timeout: 2s
+      connect-timeout: 2s

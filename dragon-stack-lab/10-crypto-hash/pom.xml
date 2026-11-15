@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>10-crypto-hash</artifactId>
+    <description>密码哈希与对称加密：Argon2 单向哈希、AES-256-GCM 加解密、AAD 绑定防止密文被挪用</description>
+
+    <dependencies>
+        <!--
+            只引 spring-security-crypto，不引 starter-security。
+            因为这里不需要过滤器链，只需要密码编码器这个工具类。
+            按需引依赖是让模块保持可读的关键：看到 pom 就知道这个模块不涉及 Web。
+        -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!--
+            Argon2 算法的实现在 BouncyCastle 里，Spring Security 只是调用方。
+            没有这个依赖，new Argon2PasswordEncoder(...) 会在运行时报
+            NoClassDefFoundError: org/bouncycastle/crypto/params/Argon2Parameters。
+            生产项目 harness_saas 显式引了 bcprov-jdk18on 1.83，这里保持一致。
+        -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.83</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

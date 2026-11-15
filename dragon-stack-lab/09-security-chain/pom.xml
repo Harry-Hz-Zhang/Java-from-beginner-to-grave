@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>09-security-chain</artifactId>
+    <description>Spring Security 过滤器链：无状态 REST 配置、自定义 OncePerRequestFilter、401 与 403 分别由谁处理</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
+        <!--
+            引入这个 starter 之后，Spring Boot 会自动给所有接口加一层默认鉴权。
+            默认行为是「所有请求都要登录，登录方式是表单页」，对 REST 服务完全不可用。
+            所以下面的 SecurityConfiguration 不是可选优化，而是引了这个 starter 之后必须做的改造。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

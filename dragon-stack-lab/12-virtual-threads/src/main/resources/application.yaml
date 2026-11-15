@@ -1,0 +1,12 @@
+server:
+  # 避开 8080 与本机正在运行的 harness_saas
+  port: 18092
+
+spring:
+  threads:
+    virtual:
+      # 生产 harness_saas 的 application.yaml 第 8 到 10 行写的是 true。
+      # 这里默认 false，是为了让你先 curl 一次看到 virtual=false，再把值改成 true
+      # 重启、再 curl 一次看到 virtual=true。只改这一行，其余代码不动。
+      # 它影响的是 Tomcat 的请求处理线程与 Boot 的默认异步执行器，不影响你手动 new 的线程池。
+      enabled: false

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>15-autoconfiguration</artifactId>
+    <description>自建 Starter：@AutoConfiguration 与 imports 清单、@ConditionalOnMissingBean 可替换、@ConditionalOnProperty 的 matchIfMissing、@DependsOn 顺序、@EnableScheduling 组合、多组配置前缀、库模块不用 @Component</description>
+
+    <dependencies>
+        <!--
+            注意这里只有 starter，没有 web。
+            这正是 harness-runner-core 的依赖形态：它是一个被别人的应用引入的库，
+            不能假设宿主有 Web 环境，也不能假设宿主用哪个序列化器。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

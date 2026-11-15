@@ -1,0 +1,11 @@
+# 这个模块是命令行 demo，不需要 Web 端口。
+# 生产项目把同样的扫描间隔写在 application.yaml 里，键名形如 harness.image.sync-interval，
+# 由 @Scheduled(fixedDelayString = "${harness.image.sync-interval:10m}") 读取。
+lab:
+  # 生产默认十分钟（10m），这里调成 2 秒，便于运行一次就能看到多轮输出。
+  # 注意写法是 Spring 的 Duration 格式，m 是分钟、s 是秒、ms 是毫秒，
+  # 和纯数字毫秒值等价，区别只是可读性。
+  scan-interval: 2s
+  # 生产默认十五秒，这里调成 500 毫秒。
+  # initialDelay 的意义是等依赖的服务就绪之后再开始扫，不是可有可无的装饰。
+  scan-initial: 500ms
