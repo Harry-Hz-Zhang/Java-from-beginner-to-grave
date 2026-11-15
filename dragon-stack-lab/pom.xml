@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        父工程继承 Spring Boot 官方的依赖管理 BOM，版本号刻意与生产项目对齐：
+        dragon_harness 与 harness_saas 的 pom.xml 都写着 <version>4.1.1</version>。
+        这样你在这里学到的写法，复制到生产仓库能直接编译通过。
+
+        <relativePath/> 留空是必须的。留空表示“去远程仓库找 parent”，
+        如果写成 <relativePath>../pom.xml</relativePath>，Maven 会错误地去上一级目录找，
+        而上一级是 Java-from-beginner-to-grave 根目录，那里并没有 pom.xml。
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.harry.lab</groupId>
+    <artifactId>dragon-stack-lab</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <!--
+        packaging=pom 表示“这个工程本身不产出 jar”，它只负责两件事：
+        一是把下面 modules 列出的子模块聚合成一次构建，二是通过 dependencyManagement 统一版本。
+        这种工程在 Maven 里叫聚合工程或父工程。
+    -->
+    <packaging>pom</packaging>
+
+    <name>dragon-stack-lab</name>
+    <description>dragon-harness 技术栈逐点验证实验室：一个知识点一个可独立运行的 demo</description>
+
+    <properties>
+        <!--
+            只写 java.version，spring-boot-starter-parent 会自动把它翻译成
+            maven.compiler.release=21 传给编译器。
+            你的生产项目两个仓都是 Java 21，所以这里必须一致。
+        -->
+        <java.version>21</java.version>
+
+        <!-- 以下三个版本号取自 harness_saas/pom.xml，不要随意升级 -->
+        <mybatis-plus.version>3.5.18</mybatis-plus.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+        <hutool.version>5.8.48</hutool.version>
+    </properties>
+
+    <!--
+        注意：这里故意不写 <dependencies>。
+        父工程一旦写了 dependencies，所有子模块都会被迫继承，
+        那样 15 号模块“库不引入 Web 依赖”的演示就失败了。
+        每个 demo 的 pom.xml 自己声明所需依赖，“最小依赖”本身就是知识点。
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!--
+                MyBatis-Plus 的 starter 必须选 boot4 版本。
+                harness_saas 用的是 mybatis-plus-spring-boot4-starter，
+                如果误用 boot3 版本，启动时会因为 Spring Boot 4 的自动配置导入机制变化而报错。
+            -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!--
+                MapStruct 是编译期代码生成器，需要两个坐标配合：
+                mapstruct 提供 @Mapper 注解，mapstruct-processor 才是真正的生成器。
+                后者由各模块在 maven-compiler-plugin 的 annotationProcessorPaths 中声明。
+            -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--
+        这里只“登记”插件，不绑定任何执行阶段。
+        登记之后，每个子模块都能直接用 mvn -pl <模块名> spring-boot:run 启动，
+        而不用在二十一个子模块里重复抄一遍插件坐标。
+        因为没有绑定 repackage 目标，像 15-autoconfiguration 那种纯库模块也不会被打成可执行 jar。
+    -->
+    <build>
+        <!--
+            pluginManagement 只提供默认配置，不会自动给子模块追加插件，
+            所以写在这里不会污染「最小依赖」的演示。
+            这里只改一件事：显式开启注解处理。
+
+            JDK 23 起 javac 把 -proc 的默认值从 full 改成了 none。
+            后果是 19 号模块的 Lombok 与 MapStruct 被静默跳过——
+            现象不是「编译报错」，而是 @Data 该生成的 getter 一个都没有，
+            报错点出现在离注解很远的地方，极难归因。
+
+            工程虽然锁了 maven.compiler.release=21，但 release 只约束
+            语言和 API 级别，真正执行编译的是当前这个 JDK 的 javac。
+            所以这里显式写 full，让注解处理行为与 JDK 版本解耦：
+            用 21 编译是通过，用更高版本编译也一样通过。
+        -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <proc>full</proc>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>01-ioc-di</module>
+        <module>02-config-properties</module>
+        <module>03-mvc-validation</module>
+        <module>04-transaction</module>
+        <module>05-mybatis-crud</module>
+        <module>06-mybatis-audit</module>
+        <module>07-mybatis-sql</module>
+        <module>08-flyway-migration</module>
+        <module>09-security-chain</module>
+        <module>10-crypto-hash</module>
+        <module>11-scheduled-async</module>
+        <module>12-virtual-threads</module>
+        <module>13-sse-streaming</module>
+        <module>14-redis-cache</module>
+        <module>15-autoconfiguration</module>
+        <module>16-process-builder</module>
+        <module>17-jsonrpc-stdio</module>
+        <module>18-completable-future</module>
+        <module>19-mapstruct-lombok</module>
+        <module>20-testing-strategy</module>
+        <module>21-external-sdk</module>
+    </modules>
+
+</project>
