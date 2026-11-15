@@ -1,0 +1,22 @@
+{
+  "java.jdt.ls.java.home": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "default": true
+    }
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "java.maven.downloadSources": true,
+  "java.referencesCodeLens.enabled": true,
+  "java.implementationsCodeLens.enabled": true,
+  "java.inlayHints.parameterNames.enabled": "literals",
+  "java.completion.importOrder": ["java", "javax", "org", "com"],
+  "java.errors.incompleteClasspath.severity": "warning",
+  "maven.executable.path": "/opt/homebrew/bin/mvn",
+  "maven.terminal.useJavaHome": true,
+  "java.configuration.maven.userSettings": "/Users/zhanghongze/.m2/settings.xml",
+  "spring-boot.ls.java.home": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+}

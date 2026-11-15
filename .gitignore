@@ -1,0 +1,26 @@
+# 构建产物
+target/
+*.class
+
+# Maven 版本发布相关临时文件
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# macOS
+.DS_Store
+
+# 日志
+*.log
+
+# 本地工具数据（WorkBuddy 会话与记忆，不属于项目源码）
+.workbuddy/
