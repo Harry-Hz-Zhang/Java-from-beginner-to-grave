@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 给简单类型（int）注入值 -->
+    <bean id="userBean" class="org.harry.simple.entity.User">
+        <!-- 简单类型用 value 属性赋值，不能用 ref；
+             "20" 是字符串，Spring 的类型转换器会先把它转成 int 再调用 setAge -->
+        <property name="age" value="20"/>
+
+        <!-- 下面这种写法和上面完全等价 -->
+        <!--
+        <property name="age">
+            <value>20</value>
+        </property>
+        -->
+    </bean>
+
+</beans>

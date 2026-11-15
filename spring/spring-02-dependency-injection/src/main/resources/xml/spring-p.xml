@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- p 命名空间的前提条件有两个：
+         1. 头部加上 xmlns:p="http://www.springframework.org/schema/p"
+         2. 目标类必须提供 setter 方法，因为 p 命名空间本质上就是 set 注入的简写 -->
+
+    <bean id="goodsBean" class="org.harry.simple.entity.Goods">
+        <property name="name" value="西瓜"/>
+    </bean>
+
+    <!-- 简单类型直接写 p:属性名；非简单类型要加 -ref 后缀，写法和 ref 属性一致 -->
+    <bean id="customerBean" class="org.harry.simple.entity.Customer"
+          p:name="zhangsan"
+          p:age="20"
+          p:favoriteGoods-ref="goodsBean"/>
+
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 练习十之一：注入空字符串，两种写法等价 -->
+    <bean id="vipEmptyBean" class="org.harry.simple.entity.Vip">
+        <property name="email" value=""/>
+        <!-- 等价的第二种写法：<value/> -->
+    </bean>
+
+    <!-- 练习十之二：用 null 标签注入 null -->
+    <bean id="vipNullTagBean" class="org.harry.simple.entity.Vip">
+        <property name="email">
+            <null/>
+        </property>
+    </bean>
+
+    <!-- 练习十之三：根本不给 email 赋值，它天然就是 null -->
+    <bean id="vipNullOmitBean" class="org.harry.simple.entity.Vip"/>
+
+</beans>

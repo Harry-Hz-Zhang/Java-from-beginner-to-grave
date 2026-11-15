@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 默认情况下是单例的 -->
+    <bean id="sb" class="org.harry.simple.Bean.SpringBean"/>
+
+    <!--    如果想让Spring的Bean对象以多例的形式存在，可以在bean标签中指定scope属性的值为：prototype
+            这样Spring会在每一次执行getBean()方法的时候创建Bean对象，调用几次则创建几次。-->
+    <!--    <bean id="sb" class="org.harry.simple.Bean.SpringBean" scope="prototype" />-->
+
+
+    <!--    singleton：默认的，单例。-->
+    <!--    prototype：原型。每调用一次getBean()方法则获取一个新的Bean对象。或每次注入的时候都是新对象。-->
+    <!--    request：一个请求对应一个Bean。仅限于在WEB应用中使用。-->
+    <!--    session：一个会话对应一个Bean。仅限于在WEB应用中使用。-->
+    <!--    application：一个应用对应一个Bean。仅限于在WEB应用中使用。-->
+    <!--    websocket：一个websocket生命周期对应一个Bean。仅限于在WEB应用中使用。-->
+    <!--    自定义scope：几乎用不上-->
+</beans>

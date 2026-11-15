@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--controller对象创建-->
+    <bean id="userControllerBean" class="org.harry.simple.controller.UserController">
+        <!--这就是set注入，底层实现原理，通过反射机制调用setter方法-->
+        <!--  属性名：  UserService   ->  拼接一个方法名： setUserService  -->
+        <!-- setter方法执行时需要一个参数，通过 ref属性来提供这个参数-->
+
+        <!-- 这里的 userService 是这里的方法 org.harry.simple.controller.UserController.setUserService 中的 name -->
+        <!-- setUserService 去掉了 set 然后按照驼峰命名法把 U 变成 u 演变过来的-->
+        <property name="userService" ref="userServiceBean"/>
+    </bean>
+
+    <!--service对象创建-->
+    <bean id="userServiceBean" class="org.harry.simple.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDaoBean"/>
+    </bean>
+
+    <!--dao对象创建-->
+    <bean id="userDaoBean" class="org.harry.simple.dao.impl.UserDaoImpl"></bean>
+
+</beans>

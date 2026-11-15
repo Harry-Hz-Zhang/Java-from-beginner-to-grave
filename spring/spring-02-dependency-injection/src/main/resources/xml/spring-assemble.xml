@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 收口配置：把本章学过的写法串成一条完整的装配链
+         util:properties -> MyDataSource 1/2
+         DbConfig、MyDataSource -> MyPool -> GoodsDaoImpl -> CheckoutServiceImpl
+    -->
+
+    <util:properties id="jdbcProps">
+        <prop key="driver">com.mysql.cj.jdbc.Driver</prop>
+        <prop key="url">jdbc:mysql://localhost:3306/spring</prop>
+        <prop key="username">root</prop>
+        <prop key="password">123456</prop>
+    </util:properties>
+
+    <!-- 两个数据源共用上面那一份配置，这里用 p 命名空间简化写法 -->
+    <bean id="dataSource1" class="org.harry.simple.pool.MyDataSource1" p:properties-ref="jdbcProps"/>
+    <bean id="dataSource2" class="org.harry.simple.pool.MyDataSource2" p:properties-ref="jdbcProps"/>
+
+    <!-- 强类型版本的连接参数 -->
+    <bean id="dbConfigBean" class="org.harry.simple.po.DbConfig">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!-- 真正实现 javax.sql.DataSource 的那个数据源 -->
+    <bean id="myDataSource" class="org.harry.simple.pool.MyDataSource">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!-- MyPool 的属性类型是接口 DataSource，所以这里既能注入 MyDataSource，
+         将来换成 HikariCP 也只改这一行，MyPool 的代码不用动 -->
+    <bean id="myPool" class="org.harry.simple.pool.MyPool"
+          p:dataSource-ref="myDataSource"
+          p:dbConfig-ref="dbConfigBean"/>
+
+    <bean id="goodsDao" class="org.harry.simple.dao.impl.GoodsDaoImpl" p:pool-ref="myPool"/>
+
+    <bean id="checkoutService" class="org.harry.simple.service.impl.CheckoutServiceImpl"
+          p:goodsDao-ref="goodsDao"/>
+
+</beans>

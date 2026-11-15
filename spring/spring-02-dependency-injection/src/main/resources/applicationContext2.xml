@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:applicationContext.xml"/>
+
+    <bean id="orderControllerBean" class="org.harry.simple.controller.OrderController">
+        <constructor-arg index="0" ref="orderServiceBean"/>
+    </bean>
+
+    <bean id="orderServiceBean" class="org.harry.simple.service.impl.OrderServiceImpl">
+        <constructor-arg index="0" ref="orderDaoBean"/>
+        <constructor-arg index="1" ref="userDaoBean"/>
+    </bean>
+
+<!--    <bean id="orderServiceBean" class="org.harry.simple.service.OrderService">-->
+<!--        &lt;!&ndash;顺序已经和构造方法的参数顺序不同了&ndash;&gt;-->
+<!--        <constructor-arg ref="userDaoBean"/>-->
+<!--        <constructor-arg ref="orderDaoBean"/>-->
+<!--    </bean>-->
+<!--    其实哪怕是写成这个样子，也是对的， spring 的这部分语法是很健壮的 -->
+
+
+    <bean id="orderDaoBean" class="org.harry.simple.dao.impl.OrderDaoImpl"> </bean>
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 用转义字符顶替特殊符号
+         XML 的五个特殊字符是 < > ' " &，对应 &lt; &gt; &apos; &quot; &amp;
+         不转义直接写，XML 解析器会把它们当成语法的一部分，直接报错 -->
+    <bean id="mathBean" class="org.harry.simple.entity.MathExpr">
+        <property name="result" value="2 &lt; 3 &amp;&amp; 3 &gt; 1"/>
+    </bean>
+
+    <!-- 把整段内容放进 CDATA 区，解析器不再解析里面的符号，
+         适合字符串里特殊符号很多的场景，不用逐个转义 -->
+    <bean id="mathCdataBean" class="org.harry.simple.entity.MathExpr">
+        <property name="result">
+            <!-- 注意：用 CDATA 时只能写成 value 子标签，不能写成 value 属性 -->
+            <value><![CDATA[2 < 3 && 3 > 1]]></value>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 级联属性赋值 -->
+    <bean id="clazzBean" class="org.harry.simple.entity.Clazz"/>
+
+    <bean id="studentBean" class="org.harry.simple.entity.Student">
+        <property name="name" value="张三"/>
+
+        <!-- 要点一：下面这两行的顺序不能颠倒。
+             clazz 必须先注入，容器才有引用可以继续往下赋值 -->
+        <property name="clazz" ref="clazzBean"/>
+
+        <!-- 要点二：Student 必须提供 getClazz()，否则这一行无法执行。
+             这个点号写法就是「级联」，它并不是给 Student 的某个属性赋值，
+             而是先 getClazz() 拿到 Clazz 实例，再调用 Clazz 的 setName -->
+        <property name="clazz.name" value="高三一班"/>
+    </bean>
+
+</beans>

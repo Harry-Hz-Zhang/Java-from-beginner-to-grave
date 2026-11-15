@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 数组中的元素是非简单类型，用 array 套 ref -->
+    <bean id="goods1" class="org.harry.simple.entity.Goods">
+        <property name="name" value="西瓜"/>
+    </bean>
+
+    <bean id="goods2" class="org.harry.simple.entity.Goods">
+        <property name="name" value="苹果"/>
+    </bean>
+
+    <bean id="orderBean" class="org.harry.simple.entity.Order">
+        <property name="goods">
+            <array>
+                <!-- 元素是对象，所以这里必须是 ref，写成 value 会报类型转换失败 -->
+                <ref bean="goods1"/>
+                <ref bean="goods2"/>
+            </array>
+        </property>
+    </bean>
+
+</beans>

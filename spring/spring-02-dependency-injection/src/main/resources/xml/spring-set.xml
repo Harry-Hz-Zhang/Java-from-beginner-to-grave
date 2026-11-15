@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 练习七：注入 Set，无序不可重复 -->
+    <bean id="peopleBean" class="org.harry.simple.entity.People">
+        <property name="phones">
+            <set>
+                <!-- 每个号码都写了两遍，执行后只剩三个，这就是 Set 的「去重」 -->
+                <value>110</value>
+                <value>110</value>
+                <value>120</value>
+                <value>120</value>
+                <value>119</value>
+                <value>119</value>
+            </set>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 注入 Map -->
+    <bean id="peopleBean" class="org.harry.simple.entity.People">
+        <property name="addrs">
+            <map>
+                <!-- 属性类型是 Map<Integer, String>，
+                     key 写的是字符串 "1"，Spring 会按泛型把它转成 Integer -->
+                <entry key="1" value="北京海淀"/>
+                <entry key="2" value="上海浦东"/>
+                <entry key="3" value="天津南开"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

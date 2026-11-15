@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- util 命名空间，目的是让配置可以复用
+         前提是在头部补上 util 的命名空间与 schemaLocation 两段 -->
+
+    <!-- 一份配置，下面两个 bean 共用，这就是 util 命名空间的价值 -->
+    <util:properties id="jdbcProps">
+        <prop key="driver">com.mysql.cj.jdbc.Driver</prop>
+        <prop key="url">jdbc:mysql://localhost:3306/spring</prop>
+        <prop key="username">root</prop>
+        <prop key="password">123456</prop>
+    </util:properties>
+
+    <bean id="dataSource1" class="org.harry.simple.pool.MyDataSource1">
+        <property name="properties" ref="jdbcProps"/>
+    </bean>
+
+    <bean id="dataSource2" class="org.harry.simple.pool.MyDataSource2">
+        <property name="properties" ref="jdbcProps"/>
+    </bean>
+
+</beans>
