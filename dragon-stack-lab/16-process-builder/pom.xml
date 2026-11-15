@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>16-process-builder</artifactId>
+    <description>调用外部命令：双流并发读、字节上限、错误分类、超时强杀、长驻进程优雅终止、解析 JSON 输出</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--
+            Spring Boot 4 用的是 Jackson 3，包名从 com.fasterxml.jackson 变成 tools.jackson。
+            自动配置会提供一个 JsonMapper Bean，但库里通常自己建一个独立实例，
+            理由见 17 号模块：协议用的 JSON 不能被宿主的 spring.jackson.* 配置影响。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jackson</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

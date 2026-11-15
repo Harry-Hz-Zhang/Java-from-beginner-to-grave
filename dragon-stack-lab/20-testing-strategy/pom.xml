@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>20-testing-strategy</artifactId>
+    <description>测试策略：SpringBootTest 加 MockMvc 的契约测试、MockitoBean 替换依赖、切片测试作对照、Testcontainers 真实依赖</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- 测试基础包：JUnit 5、AssertJ、Mockito、Spring Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            Boot 4 把 Web 测试的辅助工具单独拆了一个包，MockMvc 相关的支持在里面。
+            只引 starter-test 时能编译但 @WebMvcTest 会缺东西。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            关于 Testcontainers：本模块没有把它引入构建，原因是本机 Maven 仓库里
+            拿不到 testcontainers 的构件（只有下载失败留下的标记文件），
+            强行引入会让整个模块编译不过。注意 2.x 的坐标已经拆开，是
+            org.testcontainers:testcontainers-junit-jupiter 与
+            org.testcontainers:testcontainers-mysql，不再是 1.x 的 junit-jupiter、mysql；
+            容器类也搬到了 org.testcontainers.mysql.MySQLContainer 且不再泛型。
+            可编译的完整片段写在 README 的「Testcontainers 怎么写」一节，
+            你联网之后把依赖加回来就能直接跑。
+        -->
+    </dependencies>
+
+</project>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>19-mapstruct-lombok</artifactId>
+    <description>编译期代码生成：Lombok 生成访问器、MapStruct 生成映射实现、两者的注解处理器顺序</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!--
+                        三个注解处理器同列在这里，顺序取自生产项目 harness_saas/pom.xml 的实际内容：
+                        mapstruct-processor → lombok → lombok-mapstruct-binding。
+
+                        第一，顺序本身不是硬性要求。javac 会把这一列表里的处理器都注册上，
+                        谁先谁后由处理器自己的轮次调度决定，互换位置不影响结果。
+                        网上流传的「lombok 必须排最前」并不成立，生产项目的实际顺序也不是那样。
+
+                        第二，真正必需的是 lombok-mapstruct-binding 必须和两者同列。
+                        它的作用是让 MapStruct 在 Lombok 生成访问器之后能看见那些访问器；
+                        缺了它，MapStruct 就会认为源类没有任何属性，报「找不到属性」，
+                        或者生成一个字段都没赋值的空实现。这一条才是不能省的。
+
+                        第三，缺 mapstruct-processor 时编译不报错，但找不到 *Impl 实现类；
+                        缺 lombok 时源码里的 @Data 不生效，getter/setter 全部不存在。
+                    -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

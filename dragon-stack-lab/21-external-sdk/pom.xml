@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>21-external-sdk</artifactId>
+    <description>外部系统集成：java.net.http 手写客户端、适配器隔离、三层超时、错误码判断</description>
+
+    <dependencies>
+        <!--
+            只用 JDK 自带的 java.net.http，不引任何 HTTP 客户端库。
+            对接标准协议时 HttpClient 已经够用，多引一个库就多一份版本冲突风险。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--
+            JSON 解析用 Jackson 3，包名从 com.fasterxml.jackson 换成了 tools.jackson，
+            入口类也变成 tools.jackson.databind.json.JsonMapper。
+            Boot 4 对应的 starter 叫 spring-boot-starter-jackson，
+            生产项目的 DockerRegistryClient 注入的就是同一个 JsonMapper。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jackson</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
