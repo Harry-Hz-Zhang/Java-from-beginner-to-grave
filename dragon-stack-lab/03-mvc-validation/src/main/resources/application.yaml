@@ -1,0 +1,7 @@
+spring:
+  jackson:
+    deserialization:
+      # 请求体里出现请求对象没有的字段时，直接反序列化失败，
+      # 由全局异常处理转成 400 与统一结构。
+      # 默认为 false，客户端多传一个字段会被静默忽略，前后端字段名写错也很难发现。
+      fail-on-unknown-properties: true

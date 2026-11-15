@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>05-mybatis-crud</artifactId>
+    <description>MyBatis-Plus 基础：BaseMapper 免写 SQL 的增删改查、LambdaQueryWrapper 类型安全条件构造</description>
+
+    <dependencies>
+        <!--
+            必须用 boot4 版本的 starter。它和普通 starter 的唯一区别是适配了
+            Spring Boot 4 的自动配置注册方式（META-INF/spring/...AutoConfiguration.imports），
+            用错版本启动时会出现「Mapper 找不到」或「拦截器未注册」这类难以定位的错误。
+        -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--
+            Lombok 在编译期生成 getter/setter，运行期不存在这个 jar。
+            optional=true 表示它不会被传递给依赖本模块的其他模块。
+            harness_saas 里也是 optional=true。
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

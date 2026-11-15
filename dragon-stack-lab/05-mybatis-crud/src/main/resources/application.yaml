@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    # MODE=MySQL 让 H2 用 MySQL 的语法和类型行为来解析 SQL，
+    # 这样你在 demo 里写的 DDL 大概率能直接搬到生产的 MySQL 上。
+    url: jdbc:h2:mem:lab05;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+
+mybatis-plus:
+  configuration:
+    # 驼峰转下划线。生产 application.yaml 里显式写着这一行，
+    # 虽然默认值就是 true，写出来是为了防止别人误以为它关着。
+    map-underscore-to-camel-case: true
+  global-config:
+    # 关掉启动时那个 MyBatis-Plus 的 ASCII 横幅，让 demo 输出干净
+    banner: false

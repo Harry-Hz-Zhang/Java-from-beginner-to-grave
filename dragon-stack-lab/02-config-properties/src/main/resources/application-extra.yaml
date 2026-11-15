@@ -1,0 +1,6 @@
+# 这个文件由 application.yaml 里的 spring.config.import 引入。
+# 把一类配置单独放一个文件，主配置只留一行入口，生产用它挂 OSS 相关配置。
+# 这里只写一个键，用来证明 import 确实生效：max-concurrent-runs 的默认值是 4，
+# 运行后打印 8 就说明这个文件被读到了。
+runner:
+  max-concurrent-runs: 8

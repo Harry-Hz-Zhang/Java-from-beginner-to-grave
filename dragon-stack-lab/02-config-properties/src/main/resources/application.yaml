@@ -1,0 +1,32 @@
+# 基线配置，所有环境都先读它。
+# 第一，缩进用两个空格，不能用 Tab，yaml 对缩进敏感。
+# 第二，下面的键名用 kebab-case，Spring Boot 会自动对应 record 的驼峰参数名。
+spring:
+  profiles:
+    # 没有显式激活 profile 时默认用 prod。生产写的是 default: local，
+    # 位置见 harness_saas/src/main/resources/application.yaml:6-7。
+    default: prod
+  config:
+    # 把另一个配置文件挂到当前环境里。生产用同一机制挂 application-oss.yaml，
+    # 见 harness_saas/src/main/resources/application.yaml:2-3。
+    import: classpath:application-extra.yaml
+
+runner:
+  max-frame-bytes: 16777216
+
+  # 这里故意不写 image 与 data-root，用来演示 @DefaultValue 生效；
+  # prod profile 会覆盖它们。
+  monitor-interval: ${RUNNER_MONITOR_INTERVAL:10s}
+
+  # 单值写法：Spring 会自动包成单元素列表 [http://localhost:5173]。
+  # prod profile 里再用短横线数组写一次，对比两种形态。
+  allowed-origins: http://localhost:5173
+
+  # 下面三个键在 record 上没有 @DefaultValue，属于必填项，
+  # 少写任意一个都会在绑定阶段启动失败。
+  max-run-bytes: 33554432
+  environment-file: ./config/runner.env
+  shutdown-timeout: 5s
+
+# 想验证环境变量优先级高于 yaml：
+# RUNNER_MONITOR_INTERVAL=3s mvn -pl 02-config-properties spring-boot:run

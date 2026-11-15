@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    # 必须是文件库，不能是内存库。内存库每次重启都是全新的，flyway_schema_history
+    # 会跟着一起消失，于是每次都像第一次启动，校验和根本不会参与比对，
+    # 「改了 V1 就报错」这个演示根本演不出来。文件库才能让历史表活过重启。
+    # AUTO_SERVER=TRUE 允许同一台机器上再开一个进程连同一个文件，方便手工排查。
+    url: jdbc:h2:file:./target/lab08;MODE=MySQL;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  flyway:
+    enabled: true
+    # 脚本目录。生产项目用的是同一个位置，这是 Spring Boot 的默认值，写出来便于对照。
+    locations: classpath:db/migration
+    encoding: UTF-8
+    # 启动时校验已执行脚本的校验和。别人偷偷改了 V1 会在这里被拦住。
+    # 注意它比对的是历史表里的记录，所以第一次启动没有可比对的对象，第二次才生效。
+    validate-on-migrate: true
+    # 文件名必须符合 V{版本}__{描述}.sql，不符合直接报错，避免出现被静默忽略的脚本。
+    validate-migration-naming: true
+    # 保命开关：禁止 clean 操作。生产环境这一行必须是 true。
+    clean-disabled: true

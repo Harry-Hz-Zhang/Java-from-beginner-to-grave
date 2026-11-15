@@ -1,0 +1,11 @@
+# profile 文件只写与基线不同的部分，相同项不重复，否则改基线时容易漏改这里。
+# 文件名必须是 application-<profile>.yaml，profile 名就是横线后面那段。
+runner:
+  image: dragon-harness:prod-2026-11
+  data-root: /var/lib/dragon-harness
+
+  # 同一个键的数组写法。基线里写的是单值，Spring 同样会包成单元素列表；
+  # 数组写法按顺序绑成多元素列表，顺序会保留。
+  allowed-origins:
+    - https://console.dragon-harness.example
+    - https://admin.dragon-harness.example

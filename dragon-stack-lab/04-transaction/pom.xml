@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>04-transaction</artifactId>
+    <description>声明式事务：@Transactional 的代理机制、回滚条件、self-invocation 失效问题</description>
+
+    <dependencies>
+        <!--
+            这里用 JdbcTemplate 而不是 MyBatis，是因为这个 demo 只想演示事务本身。
+            spring-boot-starter-jdbc 会带来 HikariCP 连接池与 DataSourceAutoConfiguration，
+            生产项目也有这个依赖（harness_saas 显式声明了 starter-jdbc）。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!--
+            H2 是内存数据库，随 JVM 启动而建、退出即消失，不需要你安装 MySQL。
+            scope 写 runtime 表示编译期不需要它的类，运行期才需要。
+            harness_saas 的测试也用 H2 跑一部分用例，另一个 profile 才用 Testcontainers 起真 MySQL。
+        -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+</project>

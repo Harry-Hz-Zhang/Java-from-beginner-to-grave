@@ -1,0 +1,9 @@
+# 这个键被 OrderService 的 @PostConstruct 读取。
+# @PostConstruct 里读开关、校验配置，是「启动即失败」的常见做法，
+# 生产 RunnerOwnership 就在这里读 runner.owner-lock-enabled。
+runner:
+  notify-enabled: true
+
+# 想验证环境变量优先级高于 yaml：
+# RUNNER_NOTIFY_ENABLED=false mvn -pl 01-ioc-di spring-boot:run
+# 注意环境变量的写法是「键名大写、点与横线换成下划线」，与 yaml 的层级一一对应。

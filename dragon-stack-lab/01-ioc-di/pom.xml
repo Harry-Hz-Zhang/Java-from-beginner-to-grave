@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        子模块的 parent 指向上一级目录的聚合工程。relativePath 不写时默认就是 ../pom.xml，
+        所以这里省略即可。Maven 会先读父工程，再继承它的版本托管。
+    -->
+    <parent>
+        <groupId>com.harry.lab</groupId>
+        <artifactId>dragon-stack-lab</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>01-ioc-di</artifactId>
+    <description>控制反转与依赖注入：构造器注入、@Component 与 @Bean 的区别、@Primary 消歧、Bean 生命周期回调</description>
+
+    <dependencies>
+        <!--
+            只引 spring-boot-starter，不引 web。
+            starter 的准确含义是“一组依赖的打包入口”，它包含 Spring 容器、自动配置支持、
+            application.yaml 解析、日志。你生产项目里的 harness-runner-core 就是只引这一个，
+            所以它能在没有 Web 服务器的宿主里被装配起来。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

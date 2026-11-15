@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    # DB_CLOSE_DELAY=-1 表示最后一个连接关闭后不要销毁这个内存库，
+    # 否则 JdbcTemplate 每次取完连接，库就被清空了，你会看到自己建的表凭空消失。
+    url: jdbc:h2:mem:lab04;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  sql:
+    init:
+      # always 表示每次启动都执行 classpath 下的 schema.sql 与 data.sql。
+      # 默认值 embedded 只对嵌入式数据库生效，这里写明确是为了避免将来换成 MySQL 时行为突变。
+      mode: always
